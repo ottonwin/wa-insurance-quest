@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#184a48">
+    <title>WA Insurance Quest</title>
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="stylesheet" href="styles.css?v=5">
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">Washington Producer Exam</p>
+          <h1>Insurance Quest</h1>
+        </div>
+        <button id="installBtn" class="icon-btn hidden" type="button" aria-label="Install app" title="Install app">+</button>
+      </header>
+
+      <main>
+        <section class="hero-panel">
+          <div>
+            <p class="kicker">Pass target: 70%</p>
+            <h2 id="dailyTitle">Build the streak.</h2>
+            <p id="dailyText">Choose a track, clear missions, and drill weak areas until your mock scores are exam-ready.</p>
+            <button id="resumeBtn" class="primary hero-action" type="button">Resume learning</button>
+          </div>
+          <div class="score-ring" aria-label="Overall progress">
+            <span id="overallPct">0%</span>
+            <small>ready</small>
+          </div>
+        </section>
+
+        <section class="stats-grid" aria-label="Progress summary">
+          <div class="stat">
+            <span id="xpValue">0</span>
+            <small>XP</small>
+          </div>
+          <div class="stat">
+            <span id="streakValue">0</span>
+            <small>day streak</small>
+          </div>
+          <div class="stat">
+            <span id="masteredValue">0</span>
+            <small>mastered</small>
+          </div>
+          <div class="stat">
+            <span id="mockValue">--</span>
+            <small>best mock</small>
+          </div>
+        </section>
+
+        <section class="controls-band">
+          <label for="trackSelect">License track</label>
+          <select id="trackSelect"></select>
+        </section>
+
+        <nav class="tabs" aria-label="Study modes">
+          <button class="tab active" type="button" data-view="missions">Missions</button>
+          <button class="tab" type="button" data-view="quiz">Quiz</button>
+          <button class="tab" type="button" data-view="review">Review</button>
+          <button class="tab" type="button" data-view="exam">Mock</button>
+        </nav>
+
+        <section id="missionsView" class="view active"></section>
+        <section id="quizView" class="view"></section>
+        <section id="reviewView" class="view"></section>
+        <section id="examView" class="view"></section>
+      </main>
+    </div>
+
+    <script src="app.js?v=5"></script>
+  </body>
+</html>
