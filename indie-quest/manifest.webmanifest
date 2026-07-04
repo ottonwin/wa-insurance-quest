@@ -1,0 +1,16 @@
+{
+  "name": "Indie Quest — 30 Days to Your First AI-Built App",
+  "short_name": "IndieQuest",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#f7f7f4",
+  "theme_color": "#1cb0f6",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
