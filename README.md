@@ -1,5 +1,7 @@
 # WA Insurance Quest
 
+> **Also in this repo:** [Indie Quest](indie-quest/README.md) — a Duolingo-style 30-day course app that teaches building revenue-generating indie apps with AI, served at `/indie-quest/` on the same GitHub Pages site.
+
 Mobile-first study app for Washington insurance producer exams. It runs locally, installs as a PWA from a browser, works offline after first load, and saves progress automatically on the device with local storage.
 
 ## Open it

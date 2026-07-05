@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#1cb0f6">
+    <title>Indie Quest — 30 Days to Your First AI-Built App</title>
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="icon" href="icon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="styles.css?v=1">
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <div class="brand">
+          <p class="eyebrow">Zero code &rarr; monthly revenue</p>
+          <h1>Indie Quest</h1>
+        </div>
+        <div class="top-stats">
+          <span class="chip streak" title="Day streak">🔥 <b id="streakValue">0</b></span>
+          <span class="chip xp" title="Total XP">⚡ <b id="xpValue">0</b></span>
+          <button id="installBtn" class="icon-btn hidden" type="button" aria-label="Install app" title="Install app">+</button>
+        </div>
+      </header>
+
+      <main>
+        <section id="homeView" class="view active">
+          <div class="hero-panel">
+            <div>
+              <p class="kicker" id="heroKicker">30-day course</p>
+              <h2 id="heroTitle">Build an app. Charge for it.</h2>
+              <p id="heroText">One short lesson a day. In 30 days you'll know how to turn an idea into a paying product using AI — no coding background needed.</p>
+              <button id="resumeBtn" class="primary hero-action" type="button">Start Day 1</button>
+            </div>
+            <div class="score-ring" aria-label="Course progress">
+              <span id="overallPct">0%</span>
+              <small>done</small>
+            </div>
+          </div>
+
+          <nav class="tabs" aria-label="Modes">
+            <button class="tab active" type="button" data-view="path">Path</button>
+            <button class="tab" type="button" data-view="practice">Practice</button>
+            <button class="tab" type="button" data-view="handbook">Handbook</button>
+          </nav>
+
+          <section id="pathView" class="subview active"></section>
+          <section id="practiceView" class="subview"></section>
+          <section id="handbookView" class="subview"></section>
+        </section>
+
+        <section id="lessonView" class="view"></section>
+      </main>
+    </div>
+
+    <script src="data-week1.js?v=1"></script>
+    <script src="data-week2.js?v=1"></script>
+    <script src="data-week3.js?v=1"></script>
+    <script src="data-week4.js?v=1"></script>
+    <script src="app.js?v=1"></script>
+  </body>
+</html>
