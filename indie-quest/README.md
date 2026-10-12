@@ -16,6 +16,8 @@ A Duolingo-style, mobile-first PWA that teaches a complete beginner (no coding b
 - **Handbook** — all unlocked lessons as a searchable reference while you build.
 - **XP, streaks, and stars** — 10 XP per correct answer, bonuses for perfect lessons, a daily streak, and 1–3 stars per day based on quiz score. Days unlock sequentially.
 
+Prices, plans, and platform rules in the lessons were last fact-checked in October 2026.
+
 Progress is saved automatically on-device (localStorage). Installs as a PWA and works offline after first load.
 
 ## Open it

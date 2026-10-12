@@ -411,7 +411,7 @@
     root.innerHTML = "";
     root.append(el("div", { class: "info-card" },
       el("h3", {}, "Your reference manual 📖"),
-      el("p", {}, "Every lesson you've unlocked, in one place. Use it while you build — it's your course notes, always in your pocket.")
+      el("p", {}, "Every lesson you've unlocked, in one place. Use it while you build — it's your course notes, always in your pocket. Prices, plans, and rules were last fact-checked in October 2026 — tools change fast, so confirm on the official site before you pay for anything.")
     ));
     let any = false;
     for (const d of DAYS) {

@@ -10,12 +10,18 @@ const DATA = {
           title: "Washington producer basics",
           summary: "Federal rules plus the 45-question Washington law section that drives the P&C exam.",
           lessons: [
-            "Washington's Property and Casualty Producer Combo exam has 150 scored questions, 195 minutes, and a 70% passing score.",
+            "Washington's Property and Casualty Producer Combo exam has 150 questions in 195 minutes (3 hr 15 min) and a 70% passing score. PSI's current Washington outlines took effect April 1, 2026.",
             "The official outline puts 45 questions on Washington laws, rules, and regulations, making state law the largest section.",
             "Federal topics include the Fair Credit Reporting Act, 18 USC 1033 and 1034, and flood insurance education through the National Flood Insurance Program.",
             "Washington law topics include commissioner authority, licensing, appointments, penalties, continuing education, producer records, and address changes.",
             "Marketing-practice questions focus on unfair practices, rebating, twisting, misrepresentation, advertising, compensation disclosure, receipts, and premium accountability.",
-            "Washington-specific P&C topics include cancellation, nonrenewal, binders, guaranty association, homeowners cancellation, auto total loss, UM or UIM, PIP, and financial responsibility."
+            "Washington-specific P&C topics include cancellation, nonrenewal, binders, guaranty association, homeowners cancellation, auto total loss, UM or UIM, PIP, and financial responsibility.",
+            "Pre-licensing education is not required: HB 1061 removed it, and since July 23, 2023 you can sit for the exam without a course.",
+            "After passing, submit your license application, $55 license fee, and (for Washington residents) fingerprints within 180 days or you must retest. Apply first, then book the fingerprint appointment.",
+            "Licenses renew every 2 years and expire the last day of your birth month. CE is 24 hours per 2-year period, including 3 hours of ethics; selling NFIP flood policies also requires a one-time 3-hour flood course.",
+            "Patty Kuderer has been Washington's Insurance Commissioner since January 15, 2025, succeeding Mike Kreidler.",
+            "Since July 1, 2025 (SSB 5798), homeowners, dwelling, and commercial policies need 60 days' notice of cancellation or nonrenewal, up from 45; nonpayment cancellation still needs 10 days.",
+            "Gifts and promotional items are capped at $100 per person in any 12-month period; anything beyond that is illegal rebating."
           ]
         },
         {
@@ -100,8 +106,10 @@ const DATA = {
             "Auto liability pays damages an insured is legally responsible for because of covered bodily injury or property damage.",
             "Collision covers upset or impact with another object; other-than-collision covers losses such as theft, hail, vandalism, and fire.",
             "Uninsured and underinsured motorist coverage protects insureds when an at-fault driver has no insurance or not enough insurance.",
-            "Washington drivers must be able to show financial responsibility, so current state minimum auto liability rules matter.",
-            "Policy definitions decide who is an insured, what autos are covered, and where coverage applies."
+            "Washington's minimum auto liability limits are 25/50/10: $25,000 bodily injury per person, $50,000 per accident, and $10,000 property damage.",
+            "Policy definitions decide who is an insured, what autos are covered, and where coverage applies.",
+            "Insurers must offer PIP (at least $10,000 medical, $2,000 funeral, and $10,000 income continuation at up to $200 a week) and UIM; the named insured can reject either only in writing.",
+            "Personal auto cancellation needs 20 days' notice (10 days for nonpayment or in the first 30 days). After a policy has been in force 60 days, it can be cancelled only for nonpayment or a suspended or revoked driver's license."
           ]
         },
         {
@@ -171,7 +179,7 @@ const DATA = {
           summary: "Commercial auto, workers compensation, surety bonds, umbrella, professional, pollution, cyber, and business income.",
           lessons: [
             "Commercial auto is usually needed for contractor-owned trucks, trailers, vans, and vehicles used in the business.",
-            "Workers compensation covers employee work injuries, and Washington has a state-run workers compensation system for most employers.",
+            "Workers compensation covers employee work injuries. Washington is a monopolistic state: employers buy coverage from the L&I State Fund or qualify to self-insure, and private insurers cannot sell it.",
             "Surety bonds involve a principal, obligee, and surety; bid bonds, performance bonds, and payment bonds are common in construction.",
             "Contractors may need umbrella or excess liability because jobsite accidents and construction defect claims can exceed primary limits.",
             "Professional liability, pollution liability, cyber, employment practices, and business income coverage may be relevant depending on design work, environmental exposure, payroll, systems, and revenue dependence."
@@ -187,7 +195,7 @@ const DATA = {
             "Surety is different from insurance because the surety expects reimbursement from the principal after paying the obligee.",
             "Surety bonds have three parties: principal, obligee, and surety; construction commonly uses bid, performance, and payment bonds.",
             "Umbrella and excess policies add limits above underlying insurance and may involve underlying limits and self-insured retention.",
-            "Other exam topics include mobile home, earthquake, flood, and watercraft insurance."
+            "Other exam topics include mobile home, earthquake, flood, and watercraft insurance. NFIP residential flood limits are $250,000 building and $100,000 contents, with a usual 30-day waiting period."
           ]
         },
         {
@@ -216,11 +224,14 @@ const DATA = {
           summary: "Commissioner authority, licensing, unfair practices, agency duties, fingerprints, and score rules.",
           lessons: [
             "Washington producer exams are administered by PSI for the Office of the Insurance Commissioner.",
-            "The passing score is 70%. Exam scores are generally valid for 180 days.",
-            "Pre-licensing education is no longer required in Washington, but the PSI outline still controls what to study.",
+            "The passing score is 70%. You have 180 days after passing to submit your license application, fees, and fingerprints, or you must retest.",
+            "Pre-licensing education has not been required since July 23, 2023 (HB 1061), but the PSI outline (updated April 1, 2026) still controls what to study.",
             "A producer represents the insurer in the transaction and must be licensed for the line being sold.",
             "Unfair methods include misrepresentation, false advertising, coercion, unfair discrimination, and improper rebating.",
-            "Producers must keep accurate records and promptly forward premiums and applications."
+            "Producers must keep accurate records and promptly forward premiums and applications.",
+            "Since July 1, 2025, homeowners, dwelling, and commercial cancellation or nonrenewal requires 60 days' notice (10 days for nonpayment).",
+            "The Washington Insurance Guaranty Association pays covered claims from insolvent P&C insurers above $100 and up to $300,000, never more than the policy limit.",
+            "CE is 24 hours every 2 years, including 3 hours of ethics; licenses expire on the last day of the producer's birth month."
           ]
         },
         {
@@ -277,9 +288,9 @@ const DATA = {
           summary: "Personal auto, commercial auto, uninsured motorist, PIP, state workers compensation, and bonds.",
           lessons: [
             "Personal auto liability protects against covered bodily injury and property damage caused by an insured.",
-            "Washington drivers must show financial responsibility; study current minimum auto liability rules before scheduling.",
+            "Washington's minimum auto liability limits are 25/50/10, and drivers must carry proof of insurance. Insurers must offer PIP and UIM, which can be rejected only in writing.",
             "Uninsured and underinsured motorist coverage protects insureds when an at-fault driver lacks enough insurance.",
-            "Washington has a state-run workers compensation system, so exam questions may treat it differently from private-market states.",
+            "Washington is a monopolistic workers compensation state: coverage comes from the L&I State Fund or approved self-insurance, never private insurers.",
             "Surety bonds involve a principal, obligee, and surety. The surety expects reimbursement from the principal after a paid bond loss."
           ]
         }
@@ -311,7 +322,8 @@ const DATA = {
             "Immediate annuities begin payout shortly after purchase. Deferred annuities accumulate before payout.",
             "Fixed annuities place investment risk mainly on the insurer. Variable annuities place investment risk on the owner.",
             "Life-only payout usually pays the highest monthly amount but stops at death.",
-            "Surrender charges and tax penalties are common exam traps for early withdrawals."
+            "Surrender charges and tax penalties are common exam traps for early withdrawals.",
+            "Washington adopted annuity best-interest rules effective January 1, 2024: producers must complete a one-time 4-hour annuity training before selling annuities."
           ]
         },
         {
@@ -323,7 +335,9 @@ const DATA = {
             "Elimination periods work like time deductibles before benefits begin.",
             "Long-term care coverage helps pay for custodial or skilled care when benefit triggers are met.",
             "Guaranteed renewable policies let the insurer change premiums by class, but not cancel an individual policy.",
-            "Noncancelable policies protect both renewability and premium schedule, subject to policy terms."
+            "Noncancelable policies protect both renewability and premium schedule, subject to policy terms.",
+            "WA Cares Fund is Washington's public long-term care benefit: workers pay 0.58% of wages, and benefits of up to $36,500 (2026, inflation-adjusted) became available July 1, 2026.",
+            "Producers selling long-term care insurance need an 8-hour initial LTC course plus a 4-hour refresher every 2 years."
           ]
         },
         {
@@ -333,7 +347,7 @@ const DATA = {
           lessons: [
             "HIPAA affects portability, privacy, and limits on certain preexisting-condition practices.",
             "COBRA lets qualifying beneficiaries continue group coverage after specific qualifying events.",
-            "Medicare Part A is hospital insurance; Part B is medical insurance; Part C is Medicare Advantage; Part D is prescription drugs.",
+            "Medicare Part A is hospital insurance; Part B is medical insurance; Part C is Medicare Advantage; Part D is prescription drugs. For 2026, Part B is $202.90/month with a $283 deductible, and Part D out-of-pocket costs are capped at $2,100.",
             "ERISA governs many employer benefit plans and can preempt state law in some areas.",
             "ACA concepts include essential health benefits, guaranteed issue, rating limits, and preventive-care rules."
           ]
@@ -347,7 +361,9 @@ const DATA = {
             "Life replacement rules are designed to protect consumers when existing coverage may be replaced.",
             "Health care service contractors and HMOs are Washington-specific regulated entities worth drilling.",
             "Advertising and sales presentations must not mislead consumers about benefits, terms, or insurer identity.",
-            "Study free-look, grace period, reinstatement, claim form, and proof of loss timing concepts."
+            "Study free-look, grace period, reinstatement, claim form, and proof of loss timing concepts.",
+            "The Washington Life and Disability Insurance Guaranty Association protects policyholders of insolvent insurers up to $500,000 or the policy limit, whichever is less.",
+            "WA Cares eligibility: 10 years of contributions for lifetime access, or 3 of the last 6 years; you must need help with at least 3 activities of daily living. Since 2024 workers who move away can elect to keep coverage."
           ]
         }
       ]
@@ -365,7 +381,9 @@ const DATA = {
             "Personal lines producers focus on products for individuals and families rather than commercial accounts.",
             "The same Washington producer licensing and unfair-practice concepts apply.",
             "Know how auto, homeowners, dwelling, flood, umbrella, and personal watercraft coverage fit together.",
-            "Washington-specific questions can test state mandatory auto insurance and consumer disclosures."
+            "Washington-specific questions can test state mandatory auto insurance and consumer disclosures.",
+            "Washington's minimum auto liability is 25/50/10, and insurers must offer PIP and UIM, which may be rejected only in writing.",
+            "Homeowners and dwelling cancellation or nonrenewal requires 60 days' notice since July 1, 2025; personal auto cancellation or nonrenewal requires 20 days."
           ]
         },
         {
@@ -398,7 +416,7 @@ const DATA = {
     q("personal-risk", "wa-license", "What score do you need to pass a Washington insurance producer exam?", ["70%", "65%", "75%", "80%"], 0, "Washington OIC states the passing score is at least 70%."),
     q("personal-risk", "wa-license", "Which conduct is a producer law problem?", ["Misrepresenting policy benefits", "Explaining exclusions clearly", "Submitting a complete application", "Reviewing deductibles"], 0, "Misrepresentation is an unfair or deceptive insurance practice."),
     q("personal-risk", "wa-license", "Who administers Washington insurance license exams?", ["PSI Services", "The county assessor", "The mortgage lender", "The HOA board"], 0, "PSI administers insurance exams for Washington."),
-    q("personal-risk", "wa-license", "Washington no longer requires what before taking a producer exam?", ["Pre-licensing education", "A passing exam score", "A producer license application", "Proof of identity at testing"], 0, "Washington removed the pre-licensing education requirement, but the exam still must be passed."),
+    q("personal-risk", "wa-license", "Washington no longer requires what before taking a producer exam?", ["Pre-licensing education", "A passing exam score", "A producer license application", "Proof of identity at testing"], 0, "HB 1061 removed the pre-licensing education requirement effective July 23, 2023, but the exam still must be passed."),
     q("personal-risk", "wa-license", "A producer selling homeowners, condo, and auto policies must:", ["Be licensed for the line being sold", "Only know HOA bylaws", "Avoid explaining exclusions", "Guarantee claim payment"], 0, "A producer needs the proper insurance license and cannot promise coverage beyond the policy."),
     q("personal-risk", "wa-license", "The largest section of the Washington P&C combo exam is:", ["Washington laws, rules, and regulations", "Watercraft only", "Life annuities", "Medicare supplements"], 0, "The official outline assigns 45 of 150 scored questions to Washington law."),
     q("personal-risk", "wa-license", "Which federal topic is listed on the P&C outline?", ["Fair Credit Reporting Act", "COBRA continuation", "Medicare Part D", "ERISA pensions only"], 0, "The P&C outline includes the Fair Credit Reporting Act."),
@@ -524,6 +542,30 @@ const DATA = {
     q("pl", "pl-home", "Condo unit-owner coverage must coordinate with:", ["The association master policy", "The owner's life policy", "A commercial crime form", "A surety obligee"], 0, "Condo ownership divides building and unit responsibilities."),
     q("pl", "pl-auto", "Other-than-collision coverage may cover:", ["Theft or hail", "Bodily injury to another driver", "Policy dividends", "Life insurance loans"], 0, "Comprehensive/OTC covers many non-collision physical damage losses."),
     q("pl", "pl-auto", "UM/UIM coverage protects against:", ["Drivers with no or insufficient insurance", "Intentional losses by insured", "Wear and tear", "Business income loss"], 0, "Uninsured and underinsured motorist coverage protects the insured."),
+    q("personal-risk", "wa-license", "How long do you have after passing the exam to submit your Washington license application?", ["180 days", "30 days", "1 year", "There is no deadline"], 0, "Apply, pay fees, and complete fingerprints within 180 days of passing, or you must retest."),
+    q("personal-risk", "wa-license", "Since July 1, 2025, how much notice must an insurer give to cancel or nonrenew a Washington homeowners policy (other than for nonpayment)?", ["60 days", "45 days", "20 days", "10 days"], 0, "SSB 5798 raised the notice from 45 to 60 days for homeowners, dwelling, and commercial policies. Nonpayment still needs 10 days."),
+    q("personal-risk", "wa-license", "How many continuing education hours does a Washington producer need each 2-year license period?", ["24 hours, including 3 hours of ethics", "12 hours, no ethics", "40 hours, including 10 of ethics", "None after the exam"], 0, "Washington requires 24 CE hours per period, 3 of them ethics."),
+    q("personal-risk", "wa-license", "What is the maximum value of gifts a Washington producer may give one person in a 12-month period?", ["$100", "$25", "$500", "Unlimited if disclosed"], 0, "Promotional and referral gifts are capped at $100 per person per 12 months; more is illegal rebating."),
+    q("personal-risk", "wa-license", "Who has been Washington's Insurance Commissioner since January 2025?", ["Patty Kuderer", "Mike Kreidler", "The PSI exam director", "The Governor"], 0, "Patty Kuderer was sworn in January 15, 2025, succeeding Mike Kreidler."),
+    q("personal-risk", "auto", "What are Washington's minimum auto liability limits?", ["25/50/10", "15/30/5", "50/100/25", "10/20/10"], 0, "$25,000 bodily injury per person, $50,000 per accident, and $10,000 property damage."),
+    q("personal-risk", "auto", "How can a Washington named insured decline PIP or UIM coverage?", ["Only by rejecting it in writing", "By saying no on the phone", "Automatically at renewal", "They cannot decline it"], 0, "Insurers must offer PIP and UIM; a rejection must be in writing."),
+    q("personal-risk", "auto", "A Washington personal auto policy has been in force 90 days. Which is a permitted reason to cancel mid-term?", ["Nonpayment of premium", "The insured filed one claim", "The insurer changed its rates", "The insured moved within the state"], 0, "After 60 days, auto cancellation is limited to nonpayment or suspension or revocation of a driver's license."),
+    q("personal-risk", "construction-business", "Where does a Washington employer buy workers compensation coverage?", ["From the L&I State Fund, unless approved to self-insure", "From any private insurer", "Through a homeowners endorsement", "It is optional for all employers"], 0, "Washington is monopolistic: private insurers cannot sell workers comp there."),
+    q("personal-risk", "bop-surety-specialty", "What are the maximum NFIP residential flood limits?", ["$250,000 building and $100,000 contents", "$100,000 building and $50,000 contents", "$500,000 building and $250,000 contents", "Unlimited replacement cost"], 0, "Higher amounts require excess or private flood coverage."),
+    q("personal-risk", "bop-surety-specialty", "How long is the usual waiting period before a new NFIP flood policy takes effect?", ["30 days", "No waiting period", "7 days", "90 days"], 0, "Exceptions include policies bought at a loan closing or after a flood map change."),
+    q("pc", "wa-law", "Since July 1, 2025, Washington homeowners, dwelling, and commercial cancellation or nonrenewal requires how much notice (not for nonpayment)?", ["60 days", "45 days", "30 days", "20 days"], 0, "SSB 5798 raised the requirement from 45 to 60 days."),
+    q("pc", "wa-law", "The Washington Insurance Guaranty Association pays covered claims of an insolvent P&C insurer up to:", ["$300,000 (claims over $100)", "$50,000", "$1,000,000", "The full claim with no limit"], 0, "WIGA covers the part of a claim over $100 and up to $300,000, never more than the policy limit."),
+    q("pc", "wa-law", "Washington producer licenses expire:", ["The last day of the producer's birth month, every 2 years", "Every January 1", "Every 5 years on the exam date", "Never once issued"], 0, "Licenses run on a 2-year cycle tied to the birth month."),
+    q("pc", "auto-workers", "Washington's minimum auto liability limits are:", ["25/50/10", "15/30/5", "30/60/15", "100/300/50"], 0, "$25,000 per person, $50,000 per accident bodily injury, and $10,000 property damage."),
+    q("pc", "auto-workers", "A Washington named insured may reject PIP:", ["Only in writing", "Verbally to the producer", "Never", "Only after a claim"], 0, "Written rejection is required, and it applies to all insureds on the policy."),
+    q("ld", "federal", "What is the 2026 Medicare Part D annual out-of-pocket cap?", ["$2,100", "$2,000", "$8,000", "There is no cap"], 0, "The cap rose from $2,000 in 2025 to $2,100 in 2026."),
+    q("ld", "federal", "What is the standard Medicare Part B monthly premium in 2026?", ["$202.90", "$185.00", "$174.70", "$0 for everyone"], 0, "CMS set the 2026 standard Part B premium at $202.90, with a $283 deductible."),
+    q("ld", "health", "When did WA Cares Fund long-term care benefits become available?", ["July 1, 2026", "January 1, 2022", "July 1, 2023", "They are not available yet"], 0, "Premiums began July 2023; benefits of up to $36,500 started July 1, 2026."),
+    q("ld", "health", "What premium do Washington workers pay into WA Cares Fund?", ["0.58% of wages", "1.5% of wages", "A flat $50 per month", "Nothing; employers pay it all"], 0, "The WA Cares premium is 0.58% of wages with no cap."),
+    q("ld", "annuities", "Before selling annuities in Washington, a producer must complete:", ["A one-time 4-hour annuity best-interest training", "A 40-hour securities course", "Nothing beyond the license", "An annual 20-hour annuity exam"], 0, "Washington's best-interest rules took effect January 1, 2024."),
+    q("ld", "wa-ld-law", "The Washington Life and Disability Insurance Guaranty Association protects policyholders up to:", ["$500,000 or the policy limit, whichever is less", "$100,000", "$5,000,000", "No limit"], 0, "It steps in when a life, disability, or annuity insurer becomes insolvent."),
+    q("pl", "pl-law", "Washington personal auto nonrenewal requires how much written notice?", ["20 days", "60 days", "5 days", "No notice"], 0, "Auto cancellation and nonrenewal need 20 days (10 for nonpayment); homeowners now need 60 days."),
+    q("pl", "pl-law", "Washington's minimum auto liability limits are:", ["25/50/10", "15/30/5", "20/40/10", "50/100/50"], 0, "$25,000/$50,000 bodily injury and $10,000 property damage."),
     q("pl", "pl-auto", "Policy definitions are important because they decide:", ["Who and what is covered", "The producer's lunch break", "The exam fee", "The state capital"], 0, "Definitions control insureds, covered autos, and coverage territory.")
   ]
 };
@@ -598,7 +640,7 @@ function generatedLessonQuestions(track = currentTrack()) {
     `Which statement is correct for ${mission.title} concept ${index + 1}?`,
     [
       lesson,
-      "This topic is not tested on the Washington Property and Casualty exam.",
+      "This topic is not on the Washington exam outline.",
       "The producer can ignore this when the customer signs an application.",
       "This only matters after a claim has already been denied."
     ],
@@ -718,11 +760,15 @@ function renderMissions() {
     </div>
     <article class="review-card">
       <h3>Free official sources</h3>
-      <p>This app is built from public Washington OIC and PSI exam-outline topics. Recheck the official pages before scheduling because rules and fees can change.</p>
+      <p>Built from public Washington OIC and PSI exam-outline topics. Facts last checked October 2026 — recheck the official pages before scheduling because rules and fees change.</p>
       <ul class="source-list">
         <li><a href="https://www.insurance.wa.gov/producers-adjusters/education/first-time-license/how-schedule-insurance-license-exam" target="_blank" rel="noreferrer">Washington OIC exam scheduling and passing score</a></li>
         <li><a href="https://www.insurance.wa.gov/producers-adjusters/education/first-time-license/producers-pre-licensing-education-ple" target="_blank" rel="noreferrer">Washington OIC pre-licensing education page</a></li>
-        <li><a href="https://proctor2.psionline.com/media/programs/WA%20Insurance%20Outlinesxxxxrf.pdf" target="_blank" rel="noreferrer">PSI Washington insurance content outlines</a></li>
+        <li><a href="https://test-takers.psiexams.com/api/content/bulletin/7174" target="_blank" rel="noreferrer">PSI Washington candidate bulletin and content outlines (2026)</a></li>
+        <li><a href="https://www.insurance.wa.gov/producers-adjusters/education/continuing-education-ce/continuing-education-requirements" target="_blank" rel="noreferrer">Washington OIC continuing education requirements</a></li>
+        <li><a href="https://app.leg.wa.gov/rcw/default.aspx?cite=48.18.290" target="_blank" rel="noreferrer">RCW 48.18.290 cancellation and nonrenewal notice</a></li>
+        <li><a href="https://wacaresfund.wa.gov/benefits" target="_blank" rel="noreferrer">WA Cares Fund benefits</a></li>
+        <li><a href="https://www.cms.gov/newsroom/fact-sheets/2026-medicare-parts-b-premiums-deductibles" target="_blank" rel="noreferrer">CMS 2026 Medicare premiums and deductibles</a></li>
       </ul>
     </article>
   `;
@@ -960,7 +1006,7 @@ function renderExam() {
   $("examView").innerHTML = `
     <article class="exam-card">
       <h3>Exam readiness gate</h3>
-      <p>${track.exam}. The real Washington P&C combo exam is 150 scored questions in 195 minutes with a 70% passing score. This app holds you to an 85% practice target before calling you ready.</p>
+      <p>${track.exam}. The real Washington exam requires 70% to pass. This app holds you to an 85% practice target before calling you ready.</p>
       <div class="readiness-grid">
         <div><strong>${completed}/${track.missions.length}</strong><span>modules complete</span></div>
         <div><strong>${strongMocks}/2</strong><span>recent mocks at 85%+</span></div>
