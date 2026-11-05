@@ -17,11 +17,12 @@ const DATA = {
             "Marketing-practice questions focus on unfair practices, rebating, twisting, misrepresentation, advertising, compensation disclosure, receipts, and premium accountability.",
             "Washington-specific P&C topics include cancellation, nonrenewal, binders, guaranty association, homeowners cancellation, auto total loss, UM or UIM, PIP, and financial responsibility.",
             "Pre-licensing education is not required: HB 1061 removed it, and since July 23, 2023 you can sit for the exam without a course.",
-            "After passing, submit your license application, $55 license fee, and (for Washington residents) fingerprints within 180 days or you must retest. Apply first, then book the fingerprint appointment.",
+            "After passing, submit your license application, $55 license fee, and (for Washington residents) fingerprints within 180 days or you must retest. Apply first, then book the fingerprint appointment; the fingerprint fee is $52 since October 1, 2026.",
             "Licenses renew every 2 years and expire the last day of your birth month. CE is 24 hours per 2-year period, including 3 hours of ethics; selling NFIP flood policies also requires a one-time 3-hour flood course.",
             "Patty Kuderer has been Washington's Insurance Commissioner since January 15, 2025, succeeding Mike Kreidler.",
             "Since July 1, 2025 (SSB 5798), homeowners, dwelling, and commercial policies need 60 days' notice of cancellation or nonrenewal, up from 45; nonpayment cancellation still needs 10 days.",
-            "Gifts and promotional items are capped at $100 per person in any 12-month period; anything beyond that is illegal rebating."
+            "Gifts and promotional items are capped at $100 per person in any 12-month period; anything beyond that is illegal rebating.",
+            "Washington's updated claims-handling rules (effective October 18, 2026) require insurers to update claimants in writing every 30 days while a claim is unresolved, let first-party claimants request their claim file, and let auto claimants demand an in-person inspection instead of a photo-only estimate."
           ]
         },
         {
@@ -231,7 +232,8 @@ const DATA = {
             "Producers must keep accurate records and promptly forward premiums and applications.",
             "Since July 1, 2025, homeowners, dwelling, and commercial cancellation or nonrenewal requires 60 days' notice (10 days for nonpayment).",
             "The Washington Insurance Guaranty Association pays covered claims from insolvent P&C insurers above $100 and up to $300,000, never more than the policy limit.",
-            "CE is 24 hours every 2 years, including 3 hours of ethics; licenses expire on the last day of the producer's birth month."
+            "CE is 24 hours every 2 years, including 3 hours of ethics; licenses expire on the last day of the producer's birth month.",
+            "Since October 18, 2026, insurers must give written status updates every 30 days on unresolved claims and cannot rely solely on estimating software to settle a claim."
           ]
         },
         {
@@ -347,7 +349,7 @@ const DATA = {
           lessons: [
             "HIPAA affects portability, privacy, and limits on certain preexisting-condition practices.",
             "COBRA lets qualifying beneficiaries continue group coverage after specific qualifying events.",
-            "Medicare Part A is hospital insurance; Part B is medical insurance; Part C is Medicare Advantage; Part D is prescription drugs. For 2026, Part B is $202.90/month with a $283 deductible, and Part D out-of-pocket costs are capped at $2,100.",
+            "Medicare Part A is hospital insurance; Part B is medical insurance; Part C is Medicare Advantage; Part D is prescription drugs. For 2026, Part B is $202.90/month with a $283 deductible, and Part D out-of-pocket costs are capped at $2,100 (rising to $2,400 in 2027).",
             "ERISA governs many employer benefit plans and can preempt state law in some areas.",
             "ACA concepts include essential health benefits, guaranteed issue, rating limits, and preventive-care rules."
           ]
@@ -566,6 +568,9 @@ const DATA = {
     q("ld", "wa-ld-law", "The Washington Life and Disability Insurance Guaranty Association protects policyholders up to:", ["$500,000 or the policy limit, whichever is less", "$100,000", "$5,000,000", "No limit"], 0, "It steps in when a life, disability, or annuity insurer becomes insolvent."),
     q("pl", "pl-law", "Washington personal auto nonrenewal requires how much written notice?", ["20 days", "60 days", "5 days", "No notice"], 0, "Auto cancellation and nonrenewal need 20 days (10 for nonpayment); homeowners now need 60 days."),
     q("pl", "pl-law", "Washington's minimum auto liability limits are:", ["25/50/10", "15/30/5", "20/40/10", "50/100/50"], 0, "$25,000/$50,000 bodily injury and $10,000 property damage."),
+    q("personal-risk", "wa-license", "Under Washington's claims-handling rules effective October 18, 2026, how often must an insurer update a claimant in writing while a claim stays unresolved?", ["Every 30 days", "Every 90 days", "Only when the claim closes", "Every 7 days"], 0, "Insurers must explain in writing if a claim isn't resolved in 30 days, and again every 30 days after."),
+    q("pc", "wa-law", "A Washington auto claimant disputes an insurer's photo-only damage estimate. Under the October 2026 claims rules they may:", ["Demand an in-person inspection", "Only accept the photo estimate", "Sue the producer for the difference", "Cancel the policy for a full refund"], 0, "The updated rules let claimants request an in-person inspection when they dispute a virtual estimate."),
+    q("ld", "federal", "What is the Medicare Part D out-of-pocket cap for 2027?", ["$2,400", "$2,100", "$2,000", "$8,000"], 0, "The cap is $2,100 in 2026 and rises to $2,400 in 2027."),
     q("pl", "pl-auto", "Policy definitions are important because they decide:", ["Who and what is covered", "The premium charged", "The producer's commission", "The insurer's claim reserves"], 0, "Definitions control insureds, covered autos, and coverage territory."),
     q("personal-risk", "general-concepts", "An insurer formed in Oregon that sells policies in Washington is, in Washington, a:", ["Foreign insurer", "Domestic insurer", "Alien insurer", "Non-admitted insurer"], 0, "Domestic = formed in this state; foreign = formed in another US state; alien = formed outside the US."),
     q("personal-risk", "general-concepts", "An applicant fails to mention a prior fire loss they know is important. This is:", ["Concealment", "A warranty", "Consideration", "An aleatory feature"], 0, "Concealment is intentionally withholding a material fact; it can let the insurer void the contract."),
@@ -802,7 +807,7 @@ function renderMissions() {
     </div>
     <article class="review-card">
       <h3>Free official sources</h3>
-      <p>Built from public Washington OIC and PSI exam-outline topics. Facts last checked October 2026 — recheck the official pages before scheduling because rules and fees change.</p>
+      <p>Built from public Washington OIC and PSI exam-outline topics. Facts last checked November 2026 — recheck the official pages before scheduling because rules and fees change.</p>
       <ul class="source-list">
         <li><a href="https://www.insurance.wa.gov/producers-adjusters/education/first-time-license/how-schedule-insurance-license-exam" target="_blank" rel="noreferrer">Washington OIC exam scheduling and passing score</a></li>
         <li><a href="https://www.insurance.wa.gov/producers-adjusters/education/first-time-license/producers-pre-licensing-education-ple" target="_blank" rel="noreferrer">Washington OIC pre-licensing education page</a></li>
