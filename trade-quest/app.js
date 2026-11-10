@@ -1,4 +1,4 @@
-/* Trade Quest — 35 days to a disciplined, news-driven swing trading process. */
+/* Trade Quest — 42 days to a disciplined, news-driven swing trading process. */
 (() => {
   "use strict";
 
@@ -107,7 +107,7 @@
     if (cur === null) {
       $("#heroKicker").textContent = "Course complete";
       $("#heroTitle").textContent = "You did it. Now trade the plan. 📈";
-      $("#heroText").textContent = "All 35 days finished. Keep weak spots sharp in Practice, use the Handbook as your playbook, and keep paper trading until your journal proves an edge.";
+      $("#heroText").textContent = "All 42 days finished. Keep weak spots sharp in Practice, use the Handbook as your playbook, and keep paper trading until your journal proves an edge.";
       resumeBtn.textContent = "Practice weak spots";
       resumeBtn.onclick = () => switchTab("practice");
     } else {

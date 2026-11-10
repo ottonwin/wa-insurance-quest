@@ -177,6 +177,7 @@ h3 { margin-bottom: 6px; font-size: 1.05rem; }
 .week-3 { background: var(--purple); }
 .week-4 { background: #ff9600; }
 .week-5 { background: #ff4b4b; }
+.week-6 { background: #2b70c9; }
 
 .path-list { display: grid; gap: 4px; padding: 4px 0; }
 
