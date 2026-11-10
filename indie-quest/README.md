@@ -9,6 +9,10 @@ A Duolingo-style, mobile-first PWA that teaches a complete beginner (no coding b
 - **Week 3 — From Demo to Paid Product (Days 15–21):** databases (Supabase), user accounts/auth, Stripe payments, pricing strategy, building the MVP core, analytics, user testing.
 - **Week 4 — Launch & Grow MRR (Days 22–30):** copywriting, SEO, launch channels, email/onboarding, retention & churn, support loops, money/legal basics, scaling MRR, launch day.
 
+## The lean approach
+
+The course teaches a deliberately lean stack, modeled on how Pieter Levels (@levelsio) runs his apps: one small server (VPS), a SQLite database, plain HTML/CSS/JS with a simple backend, and Stripe. That comes to about $30/month all-in, and costs stay roughly flat as customers grow. Lessons cover the tradeoff honestly (security updates, firewall, backups — set up by the AI agent) and include a monthly "keep costs flat" subscription audit. Managed services like Supabase are mentioned as the alternative.
+
 ## How it works
 
 - **Path** — 30 sequential day-lessons grouped into 4 week units. Each day: intro → 5 lesson cards → a real-world mission (the "do this today" task that actually builds your business) → 5-question quiz with explanations.
