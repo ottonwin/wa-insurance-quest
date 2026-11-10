@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#1cb0f6">
+    <title>Trade Quest — News-Driven Swing Trading in 42 Days</title>
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="icon" href="icon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="styles.css?v=4">
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <div class="brand">
+          <p class="eyebrow">News-driven swing trading</p>
+          <h1>Trade Quest</h1>
+        </div>
+        <div class="top-stats">
+          <span class="chip streak" title="Day streak">🔥 <b id="streakValue">0</b></span>
+          <span class="chip xp" title="Total XP">⚡ <b id="xpValue">0</b></span>
+          <button id="installBtn" class="icon-btn hidden" type="button" aria-label="Install app" title="Install app">+</button>
+        </div>
+      </header>
+
+      <main>
+        <section id="homeView" class="view active">
+          <div class="hero-panel">
+            <div>
+              <p class="kicker" id="heroKicker">30-day course</p>
+              <h2 id="heroTitle">Trade the news like a professional.</h2>
+              <p id="heroText">One short lesson a day: how markets work, reading a company's fundamentals and SEC filings, charts, trading news and earnings, and the risk management that keeps you in the game — practiced with paper money first.</p>
+              <button id="resumeBtn" class="primary hero-action" type="button">Start Day 1</button>
+            </div>
+            <div class="score-ring" aria-label="Course progress">
+              <span id="overallPct">0%</span>
+              <small>done</small>
+            </div>
+          </div>
+
+          <nav class="tabs" aria-label="Modes">
+            <button class="tab active" type="button" data-view="path">Path</button>
+            <button class="tab" type="button" data-view="practice">Practice</button>
+            <button class="tab" type="button" data-view="handbook">Handbook</button>
+          </nav>
+
+          <section id="pathView" class="subview active"></section>
+          <section id="practiceView" class="subview"></section>
+          <section id="handbookView" class="subview"></section>
+        </section>
+
+        <section id="lessonView" class="view"></section>
+      </main>
+    </div>
+
+    <script src="data-week1.js?v=4"></script>
+    <script src="data-week2.js?v=4"></script>
+    <script src="data-week3.js?v=4"></script>
+    <script src="data-week4.js?v=4"></script>
+    <script src="data-week5.js?v=4"></script>
+    <script src="data-week6.js?v=4"></script>
+    <script src="app.js?v=4"></script>
+    <footer class="disclaimer">Educational only — not financial or investment advice. Trading involves substantial risk of loss; most active traders lose money.</footer>
+  </body>
+</html>
