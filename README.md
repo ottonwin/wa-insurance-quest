@@ -1,6 +1,6 @@
 # WA Insurance Quest
 
-> **Also in this repo:** [Trade Quest](trade-quest/README.md) — a 42-day news-driven swing trading course app, served at `/trade-quest/`.
+> **Also in this repo:** [Trade Quest](trade-quest/README.md) — a 56-day news-driven swing trading and options course app, served at `/trade-quest/`.
 >
 > [Indie Quest](indie-quest/README.md) — a Duolingo-style 30-day course app that teaches building revenue-generating indie apps with AI, served at `/indie-quest/` on the same GitHub Pages site.
 
