@@ -376,3 +376,14 @@ h3 { margin-bottom: 6px; font-size: 1.05rem; }
   line-height: 1.5;
   text-align: center;
 }
+
+.profile-select {
+  font: inherit;
+  font-size: .9rem;
+  font-weight: 800;
+  color: var(--ink);
+  max-width: 130px;
+  min-height: 36px;
+  cursor: pointer;
+}
+.topbar { flex-wrap: wrap; }

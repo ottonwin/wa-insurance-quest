@@ -5,7 +5,22 @@
   const WEEKS = (window.COURSE_WEEKS || []).slice().sort((a, b) => a.week - b.week);
   const DAYS = WEEKS.flatMap((w) => w.days.map((d) => ({ ...d, week: w.week })));
   const TOTAL_DAYS = DAYS.length;
-  const STORE_KEY = "tradeQuestState-v1";
+  const BASE_KEY = "tradeQuestState-v1";
+  const PROFILES_KEY = "tradeQuestProfiles-v1";
+
+  // Each person on this device gets their own saved progress.
+  // The first profile keeps the original key so existing progress is preserved.
+  function loadProfiles() {
+    try {
+      const p = JSON.parse(localStorage.getItem(PROFILES_KEY));
+      if (p && Array.isArray(p.names) && p.names.length) return p;
+    } catch {}
+    return { names: ["Otto", "David"], current: 0 };
+  }
+  const profiles = loadProfiles();
+  if (!(profiles.current >= 0 && profiles.current < profiles.names.length)) profiles.current = 0;
+  const saveProfiles = () => localStorage.setItem(PROFILES_KEY, JSON.stringify(profiles));
+  const STORE_KEY = profiles.current === 0 ? BASE_KEY : `${BASE_KEY}:p${profiles.current}`;
 
   const defaultState = () => ({
     xp: 0,
@@ -471,6 +486,24 @@
     await deferredInstall.userChoice;
     deferredInstall = null;
     $("#installBtn").classList.add("hidden");
+  });
+
+  const profileSelect = $("#profileSelect");
+  const ADD = "__add__";
+  profiles.names.forEach((name, i) => profileSelect.append(el("option", { value: String(i) }, `👤 ${name}`)));
+  profileSelect.append(el("option", { value: ADD }, "＋ Add person…"));
+  profileSelect.value = String(profiles.current);
+  profileSelect.addEventListener("change", () => {
+    if (profileSelect.value === ADD) {
+      const name = (window.prompt("Name for the new person:") || "").trim().slice(0, 20);
+      if (!name) { profileSelect.value = String(profiles.current); return; }
+      profiles.names.push(name);
+      profiles.current = profiles.names.length - 1;
+    } else {
+      profiles.current = Number(profileSelect.value);
+    }
+    saveProfiles();
+    window.location.reload();
   });
 
   checkStreakLapse();
