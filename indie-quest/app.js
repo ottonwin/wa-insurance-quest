@@ -177,14 +177,43 @@
       ...d.quiz.map((q, i) => ({ kind: "quiz", i })),
       { kind: "result" },
     ];
-    lesson = { day, d, stages, i: 0, correct: 0 };
+    lesson = { day, d, stages, i: 0, correct: 0, answered: false };
+    if (!(history.state && history.state.lesson)) history.pushState({ lesson: true }, "");
     $("#homeView").classList.remove("active");
     $("#lessonView").classList.add("active");
     renderStage();
     window.scrollTo(0, 0);
   }
 
+  // Back is allowed through the reading cards, but not past a question
+  // that has already been answered (so quiz answers can't be redone).
+  function canGoBack() {
+    if (!lesson || lesson.i === 0 || lesson.answered) return false;
+    const stage = lesson.stages[lesson.i];
+    return stage.kind !== "result" && lesson.stages[lesson.i - 1].kind !== "quiz";
+  }
+
+  function prevStage() {
+    if (!canGoBack()) return;
+    lesson.i -= 1;
+    renderStage();
+    window.scrollTo(0, 0);
+  }
+
+  let ignorePop = false;
+  window.addEventListener("popstate", () => {
+    if (ignorePop) { ignorePop = false; return; }
+    if (!lesson) return;
+    if (canGoBack()) {
+      history.pushState({ lesson: true }, "");
+      prevStage();
+    } else {
+      closeLesson();
+    }
+  });
+
   function closeLesson() {
+    if (history.state && history.state.lesson) { ignorePop = true; history.back(); }
     lesson = null;
     $("#lessonView").classList.remove("active");
     $("#homeView").classList.add("active");
@@ -194,6 +223,7 @@
 
   function nextStage() {
     lesson.i += 1;
+    lesson.answered = false;
     renderStage();
     window.scrollTo(0, 0);
   }
@@ -208,6 +238,7 @@
     root.append(
       el("div", { class: "lesson-top" },
         el("button", { class: "close-btn", type: "button", "aria-label": "Close lesson", onclick: closeLesson }, "✕"),
+        el("button", { class: "close-btn back-btn", type: "button", "aria-label": "Go back", title: "Back", onclick: prevStage, ...(canGoBack() ? {} : { disabled: "disabled" }) }, "←"),
         el("div", { class: "lesson-progress" }, el("span", { style: `width:${pct}%` }))
       )
     );
@@ -238,6 +269,9 @@
     } else if (stage.kind === "quiz") {
       renderQuizStage(root, d.quiz[stage.i], stage.i, d.quiz.length, {
         onAnswer: (ok) => {
+          lesson.answered = true;
+          const backBtn = document.querySelector(".back-btn");
+          if (backBtn) backBtn.disabled = true;
           if (ok) {
             lesson.correct += 1;
             state.xp += 10;
