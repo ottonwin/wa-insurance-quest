@@ -109,6 +109,25 @@
     return node;
   }
 
+  // Mission text plus ready-made example stocks (tap one to open its quote page).
+  function missionBox(d, label) {
+    const box = el("div", { class: "action-box" }, el("b", {}, label), d.action);
+    const picks = (window.TRADE_PICKS || {})[d.day];
+    if (picks) {
+      box.append(
+        el("div", { class: "picks" },
+          el("b", { class: "picks-title" }, "🔎 Ready-made examples (tap to look up)"),
+          el("div", { class: "pick-row" }, ...picks.tickers.map(([ticker, name]) =>
+            el("a", { class: "pick", href: `https://finance.yahoo.com/quote/${ticker}`, target: "_blank", rel: "noopener" },
+              el("b", {}, ticker), ` ${name}`))),
+          el("p", { class: "picks-note" }, picks.note),
+          el("p", { class: "picks-note muted" }, "Practice examples only — not recommendations.")
+        )
+      );
+    }
+    return box;
+  }
+
   /* ---------- Header / hero ---------- */
 
   function renderHeader() {
@@ -275,7 +294,7 @@
     } else if (stage.kind === "action") {
       root.append(el("div", { class: "stage-card" },
         el("p", { class: "card-label" }, "Today's real-world mission"),
-        el("div", { class: "action-box" }, el("b", {}, "📌 Do this today: "), d.action),
+        missionBox(d, "📌 Do this today: "),
         el("p", { class: "body-text" }, "The lessons teach; the missions build real trading skill. Now prove you know today's ideas — quiz time."),
         el("button", { class: "primary blue", type: "button", onclick: nextStage }, "Start quiz")
       ));
@@ -392,7 +411,7 @@
         el("div", {}, el("strong", {}, `+${correct * 10 + bonus}`), el("span", {}, "XP earned")),
         el("div", {}, el("strong", {}, starStr(stars)), el("span", {}, "stars"))
       ),
-      el("div", { class: "action-box" }, el("b", {}, "📌 Don't skip the mission: "), d.action),
+      missionBox(d, "📌 Don't skip the mission: "),
       nextDay
         ? el("button", { class: "primary", type: "button", onclick: () => openLesson(nextDay.day) }, `Start Day ${nextDay.day}`)
         : null,
@@ -480,7 +499,7 @@
       if (!isUnlocked(d.day)) continue;
       any = true;
       const body = el("div", { class: "hb-body" },
-        el("div", { class: "action-box" }, el("b", {}, "📌 Mission: "), d.action),
+        missionBox(d, "📌 Mission: "),
         ...d.cards.map((c) => el("div", { class: "hb-card" }, el("b", {}, c.t), el("p", {}, c.d)))
       );
       root.append(el("details", { class: "hb-day" },
