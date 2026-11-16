@@ -739,9 +739,39 @@ function masteryForMission(missionId) {
   return Math.min(100, Math.round((mastered / questions.length) * 80 + readBoost));
 }
 
+let ignorePop = false;
+
+let navSyncTimer = null;
+
 function setFocusMode(enabled) {
   document.body.classList.toggle("focus-mode", enabled);
+  syncNav();
 }
+
+// Keep the phone's back button in step with the app's screens. Runs after the
+// current screen change settles, since one tap can switch screens twice.
+function syncNav() {
+  clearTimeout(navSyncTimer);
+  navSyncTimer = setTimeout(() => {
+    if (ignorePop) { syncNav(); return; }
+    const focus = document.body.classList.contains("focus-mode");
+    const hasEntry = Boolean(history.state && history.state.focus);
+    if (focus && !hasEntry) history.pushState({ focus: true }, "");
+    if (!focus && hasEntry) { ignorePop = true; history.back(); }
+  }, 20);
+}
+
+window.addEventListener("popstate", () => {
+  if (ignorePop) { ignorePop = false; return; }
+  if (!document.body.classList.contains("focus-mode")) return;
+  if (moduleQuiz) {
+    const missionId = moduleQuiz.missionId;
+    moduleQuiz = null;
+    renderStudyModule(missionId);
+  } else {
+    switchView("missions");
+  }
+});
 
 function jumpToTop() {
   window.scrollTo({ top: 0, behavior: "smooth" });
@@ -833,6 +863,7 @@ function renderStudyModule(missionId = activeModuleId()) {
   const complete = state.moduleComplete[moduleKey(mission.id)];
   const score = state.moduleQuizScores[moduleKey(mission.id)];
   $("missionsView").innerHTML = `
+    <button class="back-link" type="button" data-back-course="true">← Course map</button>
     <article class="study-module">
       <div class="module-head">
         <div>
@@ -896,6 +927,7 @@ function renderModuleQuizQuestion() {
   const mission = currentTrack().missions.find((item) => item.id === moduleQuiz.missionId);
   const question = moduleQuiz.questions[moduleQuiz.index];
   $("missionsView").innerHTML = `
+    <button class="back-link" type="button" data-open-module="${moduleQuiz.missionId}">← Back to lesson</button>
     <article class="quiz-card module-quiz">
       <div class="pill-row">
         <span class="pill">${mission.title}</span>
@@ -1183,6 +1215,7 @@ document.addEventListener("click", (event) => {
     resumeLearning();
   }
   if (target.dataset.openModule) {
+    moduleQuiz = null;
     switchView("missions");
     renderStudyModule(target.dataset.openModule);
   }
