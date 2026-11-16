@@ -192,7 +192,7 @@
       ...d.quiz.map((q, i) => ({ kind: "quiz", i })),
       { kind: "result" },
     ];
-    lesson = { day, d, stages, i: 0, correct: 0, answered: false };
+    lesson = { day, d, stages, i: 0, correct: 0, answered: false, answers: {}, result: null };
     if (!(history.state && history.state.lesson)) history.pushState({ lesson: true }, "");
     $("#homeView").classList.remove("active");
     $("#lessonView").classList.add("active");
@@ -200,12 +200,10 @@
     window.scrollTo(0, 0);
   }
 
-  // Back is allowed through the reading cards, but not past a question
-  // that has already been answered (so quiz answers can't be redone).
+  // Back works from every screen. Answered questions are shown read-only
+  // (your answer plus the explanation), so they can be reviewed but not redone.
   function canGoBack() {
-    if (!lesson || lesson.i === 0 || lesson.answered) return false;
-    const stage = lesson.stages[lesson.i];
-    return stage.kind !== "result" && lesson.stages[lesson.i - 1].kind !== "quiz";
+    return Boolean(lesson) && lesson.i > 0;
   }
 
   function prevStage() {
@@ -283,10 +281,9 @@
       ));
     } else if (stage.kind === "quiz") {
       renderQuizStage(root, d.quiz[stage.i], stage.i, d.quiz.length, {
-        onAnswer: (ok) => {
-          lesson.answered = true;
-          const backBtn = document.querySelector(".back-btn");
-          if (backBtn) backBtn.disabled = true;
+        review: lesson.answers[stage.i],
+        onAnswer: (ok, record) => {
+          lesson.answers[stage.i] = record;
           if (ok) {
             lesson.correct += 1;
             state.xp += 10;
@@ -306,12 +303,12 @@
   }
 
   // Shared question renderer used by lessons and practice.
-  function renderQuizStage(root, q, index, total, { onAnswer, onNext, label }) {
-    const order = q.a.map((_, ai) => ai).sort(() => Math.random() - 0.5);
+  function renderQuizStage(root, q, index, total, { onAnswer, onNext, label, review }) {
+    const order = review ? review.order : q.a.map((_, ai) => ai).sort(() => Math.random() - 0.5);
     const explain = el("p", { class: "explain" }, "");
     const nextBtn = el("button", { class: "primary", type: "button", onclick: onNext }, "Continue");
     nextBtn.style.display = "none";
-    let answered = false;
+    let answered = Boolean(review);
 
     const answers = el("div", { class: "answers" });
     for (const ai of order) {
@@ -330,13 +327,24 @@
         explain.classList.add(ok ? "good" : "shown");
         explain.style.display = "block";
         nextBtn.style.display = "block";
-        onAnswer(ok);
+        onAnswer(ok, { order, picked: ai });
       });
       btn.dataset.ai = String(ai);
+      if (review) {
+        if (ai === q.c) btn.classList.add("correct");
+        else if (ai === review.picked) btn.classList.add("wrong");
+      }
       answers.append(btn);
     }
 
     explain.style.display = "none";
+    if (review) {
+      const ok = review.picked === q.c;
+      explain.textContent = (ok ? "✅ You got this one right. " : "❌ You missed this one. ") + q.e;
+      explain.classList.add(ok ? "good" : "shown");
+      explain.style.display = "block";
+      nextBtn.style.display = "block";
+    }
     root.append(el("div", { class: "stage-card" },
       el("p", { class: "card-label" }, label || `Question ${index + 1} of ${total}`),
       el("p", { class: "prompt" }, q.q),
@@ -349,22 +357,27 @@
   function finishLesson(root) {
     const { d, correct } = lesson;
     const total = d.quiz.length;
-    const stars = starsFor(correct, total);
-    const perfect = correct === total;
-    const firstTime = !isDone(d.day);
-    let bonus = 0;
-    if (perfect) { bonus += 10; }
-    if (firstTime) { bonus += 20; }
-    state.xp += bonus;
+    // Award once, even if this screen is shown again after going back.
+    if (!lesson.result) {
+      const stars = starsFor(correct, total);
+      const perfect = correct === total;
+      const firstTime = !isDone(d.day);
+      let bonus = 0;
+      if (perfect) { bonus += 10; }
+      if (firstTime) { bonus += 20; }
+      state.xp += bonus;
 
-    const prev = state.completed[d.day];
-    state.completed[d.day] = {
-      stars: Math.max(stars, prev ? prev.stars : 0),
-      best: Math.max(correct, prev ? prev.best : 0),
-    };
-    touchStreak();
-    saveState();
-    renderHeader();
+      const prev = state.completed[d.day];
+      state.completed[d.day] = {
+        stars: Math.max(stars, prev ? prev.stars : 0),
+        best: Math.max(correct, prev ? prev.best : 0),
+      };
+      touchStreak();
+      saveState();
+      renderHeader();
+      lesson.result = { stars, perfect, bonus };
+    }
+    const { stars, perfect, bonus } = lesson.result;
 
     const nextDay = DAYS.find((x) => x.day === d.day + 1);
     root.append(el("div", { class: "stage-card" },

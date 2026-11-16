@@ -764,6 +764,7 @@ function syncNav() {
 window.addEventListener("popstate", () => {
   if (ignorePop) { ignorePop = false; return; }
   if (!document.body.classList.contains("focus-mode")) return;
+  if (moduleQuiz && modulePrevQuestion()) return;
   if (moduleQuiz) {
     const missionId = moduleQuiz.missionId;
     moduleQuiz = null;
@@ -915,30 +916,64 @@ function startModuleQuiz(missionId) {
     questions: buildModuleQuiz(missionId),
     correct: 0,
     answered: false,
-    passed: false
+    passed: false,
+    picks: [],
+    reviewing: null
   };
   state.xp += 8;
   saveState();
   renderModuleQuizQuestion();
 }
 
+function moduleViewIndex() {
+  return moduleQuiz.reviewing === null ? moduleQuiz.index : moduleQuiz.reviewing;
+}
+
+function modulePrevQuestion() {
+  const view = moduleViewIndex();
+  if (view <= 0) return false;
+  moduleQuiz.reviewing = view - 1;
+  renderModuleQuizQuestion();
+  return true;
+}
+
+function moduleNextClick() {
+  if (moduleQuiz.reviewing !== null) {
+    const next = moduleQuiz.reviewing + 1;
+    moduleQuiz.reviewing = next >= moduleQuiz.index ? null : next;
+    renderModuleQuizQuestion();
+    return;
+  }
+  advanceModuleQuiz();
+}
+
+// Shows the current question, or an earlier answered one read-only for review.
 function renderModuleQuizQuestion() {
   setFocusMode(true);
   const mission = currentTrack().missions.find((item) => item.id === moduleQuiz.missionId);
-  const question = moduleQuiz.questions[moduleQuiz.index];
+  const view = moduleViewIndex();
+  const question = moduleQuiz.questions[view];
+  const pick = moduleQuiz.picks[view];
+  const answered = pick !== undefined;
+  const wasCorrect = answered && pick === question.correctChoice;
   $("missionsView").innerHTML = `
-    <button class="back-link" type="button" data-open-module="${moduleQuiz.missionId}">← Back to lesson</button>
+    ${view > 0
+      ? `<button class="back-link" type="button" data-module-prev="true">← Previous question</button>`
+      : `<button class="back-link" type="button" data-open-module="${moduleQuiz.missionId}">← Back to lesson</button>`}
     <article class="quiz-card module-quiz">
       <div class="pill-row">
         <span class="pill">${mission.title}</span>
-        <span class="pill">Question ${moduleQuiz.index + 1} of ${moduleQuiz.questions.length}</span>
+        <span class="pill">Question ${view + 1} of ${moduleQuiz.questions.length}</span>
       </div>
       <p class="prompt">${question.prompt}</p>
       <div class="answers">
-        ${question.choices.map((choice, index) => `<button class="answer-btn" type="button" data-module-answer="${index}">${choice.answer}</button>`).join("")}
+        ${question.choices.map((choice, index) => {
+          const mark = !answered ? "" : index === question.correctChoice ? " correct" : index === pick ? " wrong" : "";
+          return `<button class="answer-btn${mark}" type="button" data-module-answer="${index}" ${answered ? "disabled" : ""}>${choice.answer}</button>`;
+        }).join("")}
       </div>
-      <p id="moduleExplainBox" class="explain"></p>
-      <button id="moduleNextBtn" class="secondary hidden" type="button" data-module-next="true">Next question</button>
+      <p id="moduleExplainBox" class="explain ${answered ? "show" : ""}">${!answered ? "" : wasCorrect ? "Correct. This answer is green, so you can keep moving." : question.explanation}</p>
+      <button id="moduleNextBtn" class="secondary ${answered ? "" : "hidden"}" type="button" data-module-next="true">Next question</button>
     </article>
   `;
 }
@@ -949,6 +984,7 @@ function answerModuleQuestion(index) {
   const buttons = [...document.querySelectorAll("[data-module-answer]")];
   const correct = index === question.correctChoice;
   moduleQuiz.answered = true;
+  moduleQuiz.picks[moduleQuiz.index] = index;
   buttons.forEach((button) => button.disabled = true);
   buttons[index].classList.add(correct ? "correct" : "wrong");
   buttons[question.correctChoice].classList.add("correct");
@@ -1227,7 +1263,8 @@ document.addEventListener("click", (event) => {
     startModuleQuiz(target.dataset.startModuleQuiz);
   }
   if (target.dataset.moduleAnswer) answerModuleQuestion(Number(target.dataset.moduleAnswer));
-  if (target.dataset.moduleNext) advanceModuleQuiz();
+  if (target.dataset.moduleNext) moduleNextClick();
+  if (target.dataset.modulePrev) modulePrevQuestion();
   if (target.dataset.read) markRead(target.dataset.read);
   if (target.dataset.drill) {
     switchView("quiz");
