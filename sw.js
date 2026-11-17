@@ -1,5 +1,5 @@
-const CACHE = "wa-insurance-quest-v14";
-const ASSETS = ["./", "./index.html", "./styles.css?v=13", "./app.js?v=13", "./sync-config.js?v=14", "./sync.js?v=14", "./manifest.webmanifest", "./icon.svg"];
+const CACHE = "wa-insurance-quest-v15";
+const ASSETS = ["./", "./index.html", "./styles.css?v=14", "./app.js?v=14", "./sync-config.js?v=15", "./sync.js?v=15", "./ask.js?v=15", "./manifest.webmanifest", "./icon.svg"];
 
 self.addEventListener("install", (event) => {
   event.waitUntil(caches.open(CACHE).then((cache) => cache.addAll(ASSETS)));
