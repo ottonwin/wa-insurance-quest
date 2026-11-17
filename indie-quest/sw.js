@@ -1,13 +1,13 @@
-const CACHE = "indie-quest-v6";
+const CACHE = "indie-quest-v8";
 const ASSETS = [
   "./",
   "./index.html",
-  "./styles.css?v=6",
-  "./app.js?v=6",
-  "./data-week1.js?v=6",
-  "./data-week2.js?v=6",
-  "./data-week3.js?v=6",
-  "./data-week4.js?v=6",
+  "./styles.css?v=7",
+  "./app.js?v=7", "../sync-config.js?v=8", "../sync.js?v=8",
+  "./data-week1.js?v=7",
+  "./data-week2.js?v=7",
+  "./data-week3.js?v=7",
+  "./data-week4.js?v=7",
   "./manifest.webmanifest",
   "./icon.svg"
 ];

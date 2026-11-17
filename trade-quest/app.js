@@ -42,8 +42,12 @@
     }
   }
 
+  let sync = { saved() {} };
+
   function saveState() {
+    state._savedAt = Date.now();
     localStorage.setItem(STORE_KEY, JSON.stringify(state));
+    sync.saved();
   }
 
   function todayKey() {
@@ -571,6 +575,27 @@
     saveProfiles();
     window.location.reload();
   });
+
+  /* ---------- Cloud sync ---------- */
+
+  function firstProfileName() {
+    try { return (JSON.parse(localStorage.getItem("tradeQuestProfiles-v1")) || {}).names[0]; } catch { return undefined; }
+  }
+
+  if (window.QuestSync) {
+    sync = window.QuestSync.attach({
+      storeKey: STORE_KEY,
+      slot: profiles.current,
+      who: profiles.names[profiles.current],
+      getState: () => state,
+      applyState: (merged) => {
+        state = { ...defaultState(), ...merged };
+        localStorage.setItem(STORE_KEY, JSON.stringify(state));
+        if (!lesson) renderAll(); else renderHeader();
+      },
+      mount: document.querySelector(".top-stats"),
+    });
+  }
 
   checkStreakLapse();
   renderAll();

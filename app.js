@@ -664,9 +664,13 @@ function loadState() {
   }
 }
 
+let sync = { saved() {} };
+
 function saveState() {
+  state._savedAt = Date.now();
   localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
   renderStats();
+  sync.saved();
 }
 
 function touchStreak() {
@@ -1315,6 +1319,27 @@ $("installBtn").addEventListener("click", async () => {
 
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => navigator.serviceWorker.register("./sw.js"));
+}
+
+if (window.QuestSync) {
+  const syncMount = document.createElement("div");
+  syncMount.className = "sync-mount";
+  $("installBtn").before(syncMount);
+  let who;
+  try { who = (JSON.parse(localStorage.getItem("tradeQuestProfiles-v1")) || {}).names[0]; } catch {}
+  sync = window.QuestSync.attach({
+    storeKey: STORAGE_KEY,
+    slot: 0,
+    who,
+    getState: () => state,
+    applyState: (merged) => {
+      for (const k of Object.keys(state)) delete state[k];
+      Object.assign(state, merged);
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      if (document.body.classList.contains("focus-mode")) renderStats(); else init();
+    },
+    mount: syncMount,
+  });
 }
 
 init();
