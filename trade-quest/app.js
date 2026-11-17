@@ -36,11 +36,12 @@
 
   let state = loadState();
 
-  // One-time correction (Nov 18, 2026): progress from two people got merged
-  // under one name. Set each person to where they really are. Every device
+  // One-time correction: progress from two people got merged under one name.
+  // Set each person to where they really are (days completed). Every device
   // applies the same correction, and synced data from before it is replaced.
-  const FIX_AT = Date.UTC(2026, 10, 18);
-  const FIX_DAYS = { avian: 3, david: 4 };
+  // Bump FIX_AT whenever these numbers change so the new values win.
+  const FIX_AT = Date.UTC(2026, 10, 18, 12);
+  const FIX_DAYS = { avian: 2, david: 6 };
   (() => {
     const who = (profiles.names[profiles.current] || "").trim().toLowerCase();
     if (!(who in FIX_DAYS) || (state._resetAt || 0) >= FIX_AT) return;
