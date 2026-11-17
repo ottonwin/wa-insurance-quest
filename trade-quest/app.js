@@ -13,11 +13,15 @@
   function loadProfiles() {
     try {
       const p = JSON.parse(localStorage.getItem(PROFILES_KEY));
-      if (p && Array.isArray(p.names) && p.names.length) return p;
+      if (p && Array.isArray(p.names) && p.names.length) {
+        p.names = p.names.map((n) => (n === "Otto" ? "Avian" : n)); // renamed
+        return p;
+      }
     } catch {}
-    return { names: ["Otto", "David"], current: 0 };
+    return { names: ["Avian", "David"], current: 0 };
   }
   const profiles = loadProfiles();
+  try { localStorage.setItem(PROFILES_KEY, JSON.stringify(profiles)); } catch {}
   if (!(profiles.current >= 0 && profiles.current < profiles.names.length)) profiles.current = 0;
   const saveProfiles = () => localStorage.setItem(PROFILES_KEY, JSON.stringify(profiles));
   const STORE_KEY = profiles.current === 0 ? BASE_KEY : `${BASE_KEY}:p${profiles.current}`;
@@ -31,6 +35,20 @@
   });
 
   let state = loadState();
+
+  // One-time correction (Nov 18, 2026): progress from two people got merged
+  // under one name. Set each person to where they really are. Every device
+  // applies the same correction, and synced data from before it is replaced.
+  const FIX_AT = Date.UTC(2026, 10, 18);
+  const FIX_DAYS = { avian: 3, david: 4 };
+  (() => {
+    const who = (profiles.names[profiles.current] || "").trim().toLowerCase();
+    if (!(who in FIX_DAYS) || (state._resetAt || 0) >= FIX_AT) return;
+    const completed = {};
+    for (let d = 1; d <= FIX_DAYS[who]; d++) completed[d] = { stars: 3, best: 5 };
+    state = { ...defaultState(), xp: FIX_DAYS[who] * 60, completed, _resetAt: FIX_AT, _savedAt: FIX_AT };
+    try { localStorage.setItem(STORE_KEY, JSON.stringify(state)); } catch {}
+  })();
 
   function loadState() {
     try {

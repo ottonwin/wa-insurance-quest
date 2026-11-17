@@ -1,6 +1,6 @@
 /* Cloud progress sync shared by Insurance Quest, Indie Quest and Trade Quest.
  *
- * Progress syncs automatically under each person's name (Otto, David, …), so
+ * Progress syncs automatically under each person's name (Avian, David, …), so
  * choosing the same name on any device loads the same progress. Indie Quest and
  * Insurance Quest use whoever is selected in Trade Quest on that device.
  * Progress from two devices is merged, never thrown away: finished lessons
@@ -52,6 +52,9 @@
   function merge(local, remote) {
     if (!remote) return local;
     if (!local) return remote;
+    // A progress correction replaces older data outright instead of merging with it.
+    const ra = local._resetAt || 0, rb = remote._resetAt || 0;
+    if (ra !== rb) return ra > rb ? local : remote;
     const newer = (remote._savedAt || 0) > (local._savedAt || 0) ? remote : local;
     const older = newer === remote ? local : remote;
     const out = { ...older, ...newer };
@@ -143,7 +146,8 @@
 
       // Progress is stored under the person's name, so picking the same name
       // on any device loads the same progress — no code to type.
-      const who = String(opts.who || "Otto").trim() || "Otto";
+      let who = String(opts.who || "Avian").trim() || "Avian";
+      if (who === "Otto") who = "Avian"; // renamed
       const slug = who.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") || "person";
       const remoteId = `quests-household:${slug}:${opts.storeKey}`;
       let status = "idle"; // idle | syncing | ok | err
