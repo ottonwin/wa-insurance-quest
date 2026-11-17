@@ -1,18 +1,18 @@
-const CACHE = "trade-quest-v8";
+const CACHE = "trade-quest-v9";
 const ASSETS = [
   "./",
   "./index.html",
-  "./styles.css?v=10",
-  "./app.js?v=10", "../sync-config.js?v=11", "../sync.js?v=11",
-  "./picks.js?v=10",
-  "./data-week1.js?v=10",
-  "./data-week2.js?v=10",
-  "./data-week3.js?v=10",
-  "./data-week4.js?v=10",
-  "./data-week5.js?v=10",
-  "./data-week6.js?v=10",
-  "./data-week7.js?v=10",
-  "./data-week8.js?v=10",
+  "./styles.css?v=11",
+  "./app.js?v=11", "../sync-config.js?v=12", "../sync.js?v=12",
+  "./picks.js?v=11",
+  "./data-week1.js?v=11",
+  "./data-week2.js?v=11",
+  "./data-week3.js?v=11",
+  "./data-week4.js?v=11",
+  "./data-week5.js?v=11",
+  "./data-week6.js?v=11",
+  "./data-week7.js?v=11",
+  "./data-week8.js?v=11",
   "./manifest.webmanifest",
   "./icon.svg"
 ];
