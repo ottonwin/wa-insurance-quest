@@ -5,7 +5,11 @@
   const WEEKS = (window.COURSE_WEEKS || []).slice().sort((a, b) => a.week - b.week);
   const DAYS = WEEKS.flatMap((w) => w.days.map((d) => ({ ...d, week: w.week })));
   const TOTAL_DAYS = DAYS.length;
-  const STORE_KEY = "indieQuestState-v1";
+  const PERSON = (() => {
+    // Person selected in Trade Quest on this device (0 = first person keeps the original save).
+    try { const p = JSON.parse(localStorage.getItem("tradeQuestProfiles-v1")) || {}; return p.current > 0 && p.names && p.current < p.names.length ? p.current : 0; } catch { return 0; }
+  })();
+  const STORE_KEY = PERSON === 0 ? "indieQuestState-v1" : `indieQuestState-v1:p${PERSON}`;
 
   const defaultState = () => ({
     xp: 0,
@@ -527,13 +531,16 @@
   /* ---------- Cloud sync ---------- */
 
   function firstProfileName() {
-    try { return (JSON.parse(localStorage.getItem("tradeQuestProfiles-v1")) || {}).names[0]; } catch { return undefined; }
+    try {
+      const p = JSON.parse(localStorage.getItem("tradeQuestProfiles-v1")) || {};
+      return p.names[p.current || 0];
+    } catch { return undefined; }
   }
 
   if (window.QuestSync) {
     sync = window.QuestSync.attach({
       storeKey: STORE_KEY,
-      slot: 0,
+      slot: PERSON,
       who: firstProfileName(),
       getState: () => state,
       applyState: (merged) => {

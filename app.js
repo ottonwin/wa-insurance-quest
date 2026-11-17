@@ -618,7 +618,11 @@ const DATA = {
   ]
 };
 
-const STORAGE_KEY = "wa-insurance-quest-progress-v1";
+const PERSON = (() => {
+  // Person selected in Trade Quest on this device (0 = first person keeps the original save).
+  try { const p = JSON.parse(localStorage.getItem("tradeQuestProfiles-v1")) || {}; return p.current > 0 && p.names && p.current < p.names.length ? p.current : 0; } catch { return 0; }
+})();
+const STORAGE_KEY = PERSON === 0 ? "wa-insurance-quest-progress-v1" : `wa-insurance-quest-progress-v1:p${PERSON}`;
 const state = loadState();
 let activeQuestion = null;
 let activeChoices = [];
@@ -1326,10 +1330,10 @@ if (window.QuestSync) {
   syncMount.className = "sync-mount";
   $("installBtn").before(syncMount);
   let who;
-  try { who = (JSON.parse(localStorage.getItem("tradeQuestProfiles-v1")) || {}).names[0]; } catch {}
+  try { const pr = JSON.parse(localStorage.getItem("tradeQuestProfiles-v1")) || {}; who = pr.names[pr.current || 0]; } catch {}
   sync = window.QuestSync.attach({
     storeKey: STORAGE_KEY,
-    slot: 0,
+    slot: PERSON,
     who,
     getState: () => state,
     applyState: (merged) => {

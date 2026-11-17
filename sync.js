@@ -1,8 +1,8 @@
 /* Cloud progress sync shared by Insurance Quest, Indie Quest and Trade Quest.
  *
- * Each person has a private sync code (like ABCD-EFGH-JKLM-NPQR-STUV). The same
- * code is shared by all three apps on a device (they live on the same site),
- * and entering it on another device pulls that person's progress there.
+ * Progress syncs automatically under each person's name (Otto, David, …), so
+ * choosing the same name on any device loads the same progress. Indie Quest and
+ * Insurance Quest use whoever is selected in Trade Quest on that device.
  * Progress from two devices is merged, never thrown away: finished lessons
  * from either device are kept, XP keeps the higher total, and everything else
  * comes from whichever device saved most recently.
@@ -128,8 +128,8 @@
     /**
      * opts: {
      *   storeKey:  localStorage key this app saves progress under,
-     *   slot:      which person on this device (0 = first/only person),
-     *   who:       optional display name for that person,
+     *   slot:      which person on this device (only used to carry over old sync codes),
+     *   who:       the person's name — progress syncs under this name on every device,
      *   getState:  () => current progress object,
      *   applyState:(merged) => replace progress, save locally and re-render,
      *   mount:     element to put the ☁️ button in,
@@ -141,121 +141,87 @@
       if (!enabled || !opts || !opts.mount) return noop;
       injectStyles();
 
-      const remoteId = () => `${getCode(opts.slot)}:${opts.storeKey}`;
-      let status = "idle"; // idle | syncing | ok | err | off
+      // Progress is stored under the person's name, so picking the same name
+      // on any device loads the same progress — no code to type.
+      const who = String(opts.who || "Otto").trim() || "Otto";
+      const slug = who.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") || "person";
+      const remoteId = `quests-household:${slug}:${opts.storeKey}`;
+      let status = "idle"; // idle | syncing | ok | err
       let lastError = "";
       let lastSync = null;
       let pushTimer = null;
-      let pushing = false;
+      let busy = false;
 
-      const btn = h("button", { class: "qs-btn", type: "button", title: "Sync progress across devices", onclick: () => openPanel() });
+      const btn = h("button", { class: "qs-btn", type: "button", title: "Progress syncs across devices", onclick: () => openPanel() });
       opts.mount.append(btn);
 
       function setStatus(s, err) {
         status = s;
         if (err) lastError = err;
         if (s === "ok") lastSync = new Date();
-        const label = !getCode(opts.slot) ? "☁️ Sync off" : s === "syncing" ? "☁️ Syncing…" : s === "err" ? "☁️ Offline" : "☁️ Synced";
-        btn.textContent = label;
-        btn.dataset.state = !getCode(opts.slot) ? "off" : s;
+        btn.textContent = s === "syncing" ? "☁️ Syncing…" : s === "err" ? "☁️ Offline" : "☁️ Synced";
+        btn.dataset.state = s;
       }
 
-      async function pull() {
-        if (!getCode(opts.slot)) return setStatus("off");
-        setStatus("syncing");
-        try {
-          const res = await rpc("get_progress", { p_id: remoteId() });
-          const local = opts.getState();
-          const merged = merge(local, res && res.data);
-          if (!same(merged, local)) opts.applyState(merged);
-          if (!res || !same(merged, res.data)) await rpc("put_progress", { p_id: remoteId(), p_data: merged });
-          setStatus("ok");
-        } catch (e) {
-          setStatus("err", e.message);
-        }
+      // Older versions used a private random code; fold that progress in once.
+      async function legacyData() {
+        const code = getCode(opts.slot);
+        const doneKey = `questSyncMigrated:${opts.storeKey}`;
+        if (!code) return null;
+        try { if (localStorage.getItem(doneKey)) return null; } catch { return null; }
+        const res = await rpc("get_progress", { p_id: `${code}:${opts.storeKey}` });
+        return { data: res && res.data, done: () => { try { localStorage.setItem(doneKey, "1"); } catch {} } };
       }
 
-      async function push() {
-        if (!getCode(opts.slot) || pushing) return;
-        pushing = true;
+      async function syncNow() {
+        if (busy) return;
+        busy = true;
         setStatus("syncing");
         try {
-          // Pull first so a save on this device never overwrites newer progress from another.
-          const res = await rpc("get_progress", { p_id: remoteId() });
+          const res = await rpc("get_progress", { p_id: remoteId });
+          const legacy = await legacyData();
           const local = opts.getState();
-          const merged = merge(local, res && res.data);
+          let merged = merge(local, res && res.data);
+          if (legacy && legacy.data) merged = merge(merged, legacy.data);
           if (!same(merged, local)) opts.applyState(merged);
-          await rpc("put_progress", { p_id: remoteId(), p_data: merged });
+          if (!res || !same(merged, res.data)) await rpc("put_progress", { p_id: remoteId, p_data: merged });
+          if (legacy) legacy.done();
           setStatus("ok");
         } catch (e) {
           setStatus("err", e.message);
         } finally {
-          pushing = false;
+          busy = false;
         }
       }
 
       function openPanel() {
-        const code = getCode(opts.slot);
         const msg = h("p", { class: "qs-msg" });
         const close = () => overlay.remove();
-        const who = opts.who ? ` for ${opts.who}` : "";
-        const input = h("input", { placeholder: "XXXXX-XXXXX-XXXXX-XXXXX", autocomplete: "off", autocapitalize: "characters", spellcheck: "false" });
-
-        const useCode = async () => {
-          const c = normalizeCode(input.value);
-          if (!c) { msg.className = "qs-msg err"; msg.textContent = "That code doesn't look right. It's 20 letters and numbers."; return; }
-          setCode(opts.slot, c);
-          msg.className = "qs-msg"; msg.textContent = "Connecting…";
-          await pull();
-          if (status === "ok") { close(); } else { msg.className = "qs-msg err"; msg.textContent = `Couldn't reach the sync server. ${lastError}`; }
-        };
-
-        const body = code
-          ? [
-              h("h3", {}, `☁️ Sync is on${who}`),
-              h("p", {}, "Your progress saves to the cloud automatically. To continue on another phone or computer, open this app there, tap ☁️ Sync, and enter this code:"),
-              h("code", { class: "qs-code" }, code),
-              h("div", { class: "qs-row" },
-                h("button", { class: "qs-a qs-primary", type: "button", onclick: async () => {
-                  try { await navigator.clipboard.writeText(code); msg.className = "qs-msg ok"; msg.textContent = "Code copied."; }
-                  catch { msg.className = "qs-msg"; msg.textContent = "Select the code above and copy it."; }
-                } }, "Copy code"),
-                h("button", { class: "qs-a qs-secondary", type: "button", onclick: async () => { await pull(); msg.className = status === "ok" ? "qs-msg ok" : "qs-msg err"; msg.textContent = status === "ok" ? "Up to date." : `Couldn't sync. ${lastError}`; } }, "Sync now")),
-              h("p", { class: "qs-status" }, lastSync ? `Last synced ${lastSync.toLocaleTimeString()}.` : status === "err" ? "Not synced yet — check your connection." : ""),
-              h("p", {}, "Keep the code private — anyone with it can see and change this progress. Each person needs their own code."),
-              h("button", { class: "qs-a qs-danger", type: "button", onclick: () => {
-                if (!confirm("Stop syncing on this device? Your progress stays here and in the cloud.")) return;
-                setCode(opts.slot, ""); setStatus("off"); close();
-              } }, "Turn off sync on this device"),
-            ]
-          : [
-              h("h3", {}, `☁️ Sync your progress${who}`),
-              h("p", {}, "Turn on sync to save your progress to the cloud and pick it up on any phone or computer."),
-              h("div", { class: "qs-row" },
-                h("button", { class: "qs-a qs-primary", type: "button", onclick: async () => {
-                  setCode(opts.slot, newCode()); msg.textContent = "Setting up…"; await pull(); close(); openPanel();
-                } }, "Start syncing (first device)")),
-              h("p", {}, "Already synced on another device? Enter that code here:"),
-              h("div", { class: "qs-row" }, input,
-                h("button", { class: "qs-a qs-secondary", type: "button", onclick: useCode }, "Use this code")),
-            ];
-
         const overlay = h("div", { class: "qs-overlay", onclick: (e) => { if (e.target === overlay) close(); } },
-          h("div", { class: "qs-card", role: "dialog", "aria-label": "Sync progress" }, ...body, msg,
+          h("div", { class: "qs-card", role: "dialog", "aria-label": "Sync progress" },
+            h("h3", {}, `☁️ Syncing as ${who}`),
+            h("p", {}, `${who}'s progress saves to the cloud automatically. On any other phone or computer, just open the app${opts.who ? ` and pick ${who}` : ""} — the progress loads by itself.`),
+            h("p", { class: "qs-status" }, status === "err" ? `Not synced right now. ${lastError}` : lastSync ? `Last synced ${lastSync.toLocaleTimeString()}.` : "Syncing…"),
+            h("div", { class: "qs-row" },
+              h("button", { class: "qs-a qs-primary", type: "button", onclick: async () => {
+                await syncNow();
+                msg.className = status === "ok" ? "qs-msg ok" : "qs-msg err";
+                msg.textContent = status === "ok" ? "Up to date." : `Couldn't sync. ${lastError}`;
+              } }, "Sync now")),
+            msg,
             h("button", { class: "qs-a qs-secondary", type: "button", style: "margin-top:8px", onclick: close }, "Close")));
         document.body.append(overlay);
       }
 
-      document.addEventListener("visibilitychange", () => { if (document.visibilityState === "visible") pull(); });
-      window.addEventListener("online", () => pull());
-      setStatus(getCode(opts.slot) ? "idle" : "off");
-      pull();
+      document.addEventListener("visibilitychange", () => { if (document.visibilityState === "visible") syncNow(); });
+      window.addEventListener("online", () => syncNow());
+      setStatus("idle");
+      syncNow();
 
       return {
         saved() {
-          if (!getCode(opts.slot)) return;
           clearTimeout(pushTimer);
-          pushTimer = setTimeout(push, 1500);
+          pushTimer = setTimeout(syncNow, 1500);
         },
       };
     },
