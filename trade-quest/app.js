@@ -139,7 +139,7 @@
     if (picks) {
       box.append(
         el("div", { class: "picks" },
-          el("b", { class: "picks-title" }, "🔎 Ready-made examples (tap to look up)"),
+          el("b", { class: "picks-title" }, "🔎 Ready-made examples (tap to look up, or type the ticker into thinkorswim)"),
           el("div", { class: "pick-row" }, ...picks.tickers.map(([ticker, name]) =>
             el("a", { class: "pick", href: `https://finance.yahoo.com/quote/${ticker}`, target: "_blank", rel: "noopener" },
               el("b", {}, ticker), ` ${name}`))),
@@ -440,6 +440,8 @@
         : null,
       el("button", { class: "secondary", type: "button", onclick: closeLesson }, "Back to path")
     ));
+    const ask = window.AskOtto && window.AskOtto.box({ person: profiles.names[profiles.current], app: "trade-quest", day: `Day ${d.day}`, lesson: d.title });
+    if (ask) root.append(ask);
   }
 
   /* ---------- Practice (missed questions) ---------- */

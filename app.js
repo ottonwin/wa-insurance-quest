@@ -1049,6 +1049,13 @@ function finishModuleQuiz() {
       </div>
     </article>
   `;
+  if (window.AskOtto) {
+    let person;
+    try { const pr = JSON.parse(localStorage.getItem("tradeQuestProfiles-v1")) || {}; person = pr.names[pr.current || 0]; } catch {}
+    const mission = track.missions[missionIndex];
+    const ask = window.AskOtto.box({ person, app: "insurance-quest", day: `${track.name}: ${mission.title}`.slice(0, 80), lesson: mission.title });
+    if (ask) $("missionsView").append(ask);
+  }
   moduleQuiz = null;
   jumpToTop();
 }

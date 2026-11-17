@@ -391,6 +391,8 @@
         : null,
       el("button", { class: "secondary", type: "button", onclick: closeLesson }, "Back to path")
     ));
+    const ask = window.AskOtto && window.AskOtto.box({ person: firstProfileName(), app: "indie-quest", day: `Day ${d.day}`, lesson: d.title });
+    if (ask) root.append(ask);
   }
 
   /* ---------- Practice (missed questions) ---------- */
