@@ -38,7 +38,12 @@
     const res = await fetch(`${cfg.url.replace(/\/$/, "")}/rest/v1/rpc/${name}`, {
       method: "POST", headers, body: JSON.stringify(body),
     });
-    if (!res.ok) throw new Error(`Sync failed (${res.status})`);
+    if (!res.ok) {
+      if (res.status === 404) throw new Error("The database setup script hasn't been run yet (Supabase → SQL Editor).");
+      if (res.status === 401 || res.status === 403) throw new Error("The sync key was rejected — check sync-config.js.");
+      if (res.status === 540 || res.status === 503) throw new Error("The database is paused — tap Restore in Supabase.");
+      throw new Error(`Sync failed (${res.status}).`);
+    }
     const text = await res.text();
     return text ? JSON.parse(text) : null;
   }

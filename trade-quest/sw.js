@@ -1,9 +1,9 @@
-const CACHE = "trade-quest-v7";
+const CACHE = "trade-quest-v8";
 const ASSETS = [
   "./",
   "./index.html",
   "./styles.css?v=10",
-  "./app.js?v=10", "../sync-config.js?v=10", "../sync.js?v=10",
+  "./app.js?v=10", "../sync-config.js?v=11", "../sync.js?v=11",
   "./picks.js?v=10",
   "./data-week1.js?v=10",
   "./data-week2.js?v=10",
