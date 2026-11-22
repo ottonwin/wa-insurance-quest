@@ -13,6 +13,7 @@ const ASSETS = [
   "./data-week6.js?v=15",
   "./data-week7.js?v=15",
   "./data-week9.js?v=2",
+  "./data-week10.js?v=2",
   "./data-week8.js?v=15",
   "./manifest.webmanifest",
   "./icon.svg"
